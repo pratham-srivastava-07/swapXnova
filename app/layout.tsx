@@ -10,6 +10,7 @@ import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react
 import {
     WalletModalProvider,
 } from '@solana/wallet-adapter-react-ui';
+import Appbar from "@/components/layouts/Appbar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -45,8 +46,9 @@ export default function RootLayout({
                 <WalletModalProvider>
                   <body
                   className={`${geistSans.variable} ${geistMono.variable} antialiased `}
-                  style={{backgroundColor: '#9CB1C9'}}
+                  style={{backgroundColor: '#9CB1C9', color: 'black'}}
                   >
+                    <Appbar />
                   {children}
                   </body>
                 </WalletModalProvider>

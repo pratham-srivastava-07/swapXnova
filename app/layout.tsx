@@ -18,6 +18,7 @@ import { SessionProvider } from "next-auth/react";
 import { AnimatePresence, motion } from "framer-motion";
 import Appbar from "@/components/layouts/Appbar";
 import { Providers } from "./providers";
+import Footer from "@/components/layouts/Footer";
 
 
 const geistSans = localFont({
@@ -60,6 +61,7 @@ export default function RootLayout({
                   <WalletModalProvider>
                     <Appbar />
                         {children} 
+                    <Footer />
                   </WalletModalProvider>
                   </WalletProvider>
                     </ConnectionProvider>

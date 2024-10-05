@@ -1,60 +1,74 @@
-import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import prisma from "@/app/db";
+import { prismaClient } from "./db";
 import bcrypt from "bcrypt"
+export const authOptions =  {
+            providers: [
+              CredentialsProvider({
+                name: "Credentials",
+                credentials: {
+                  name: { label: "name", type: "text", placeholder: "jsmith" },
+                  email: {label: "Email", type: "email", placeholder: "email"},
+                  password: { label: "Password", type: "password", placeholder: "password" },
+                },
+                async authorize(credentials, req) {
+                  if (!credentials?.email || !credentials?.password) {
+                    throw new Error("Missing email or password");
+                  }
 
-export const authOptions = {
-    adapter: PrismaAdapter(prisma),
-    providers: [
-        CredentialsProvider({
-            name: "Credentials",
-            credentials: {
-                name: {
-                    label: "name",
-                    type: "text"
-                },
-                email: {
-                    label: "email",
-                    type: "text",
-                },
-                password: {
-                    label: "password",
-                    type: "password",
-                }
-            },
-            async authorize(credentials, req) {
-                if (!credentials?.email || !credentials?.password) {
-                    throw new Error("Invalid credentials");
-                }
-                const user = await prisma.user.findUnique({
+                  // Check if user exists
+                  const existingUser = await prismaClient.user.findFirst({
                     where: {
-                        email: credentials.email,
-                    }
-                })
-                if(user){
-                    const isValid = await bcrypt.compare(credentials.password, user.password)
-                    if(!isValid){
-                        throw new Error("Invalid credentials")
-                    }
-                    return user
-                } else {
-                    const hashedPassword = await bcrypt.hash(credentials.password, 10)
-                    const newUser = await prisma.user.create({
-                        data: {
-                            email: credentials.email,
-                            password: hashedPassword,
-                            name: credentials.name,
-                        }
-                    })
-                    return newUser
-                }
-            }
-        })
-    ],
-    secret: process.env.NEXTAUTH_SECRET,
-    jwt: {
-        secret: 'secret'
-    }
-}
+                      email: credentials.email,
+                    },
+                  });
 
+                  if (existingUser) {
+                    const isValidPassword = await bcrypt.compare(
+                      credentials.password,
+                      existingUser.password
+                    );
+
+                    if (isValidPassword) {
+                      return {
+                        id: existingUser.id.toString(),
+                        name: existingUser.name,
+                        email: existingUser.email,
+                      };
+                    } else {
+                      throw new Error("Invalid password");
+                    }
+                  }
+
+                  // If user does not exist, create a new one
+                  try {
+                    const hashedPassword = await bcrypt.hash(credentials.password, 10);
+                    const newUser = await prismaClient.user.create({
+                      data: {
+                        email: credentials.email,
+                        name: credentials.name, // Default name if not provided
+                        password: hashedPassword,
+                      },
+                    });
+
+                    return {
+                      id: newUser.id.toString(),
+                      name: newUser.name,
+                      email: newUser.email,
+                    };
+                  } catch (e) {
+                    console.error("Error creating user:", e);
+                    throw new Error("User creation failed");
+                  }
+                }
+              })
+            ],
+              secret: process.env.NEXTAUTH_SECRET,
+              callbacks: {
+                async session({ token, session }: any) {
+                  if (session?.user) {
+                    session.user.id = token.sub;
+                  }
+                  return session;
+                },
+              }
+              }

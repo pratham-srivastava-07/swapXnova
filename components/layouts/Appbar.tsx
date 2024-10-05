@@ -13,7 +13,7 @@ import {
 export default function Appbar() {
     const {data: session} = useSession();
     return <div>
-        { !session ? <div className="flex justify-between items-center p-5 ">
+        { !session ? (<div className="flex justify-between items-center p-5 ">
             <div className="flex justify-center items-center space-x-3 font-bold text-xl">
                 swapXnova
             </div>
@@ -21,7 +21,7 @@ export default function Appbar() {
                 <div className="about cursor-pointer">About</div>
                 <div className=""><Button variant={"outline"} className="btn cursor-pointer rounded-full" onClick={() => signIn()}>Signin</Button></div>
             </div>
-        </div>: <div>
+        </div> ) : ( <div>
         <div className="flex justify-between items-center p-5  border-b">
             <div className="flex justify-center items-center space-x-3 font-bold text-xl">
                 swapXnova
@@ -40,6 +40,6 @@ export default function Appbar() {
                 </div>
             </div>
         </div>
-        </div>}
+        </div> )}
     </div>
 }

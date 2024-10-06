@@ -41,7 +41,7 @@ export default function Appbar() {
             <PopoverContent className='p-2 space-y-3 divide-y'>
             <div className="text-sm px-4">
      <p >{session?.user?.email}</p>
-     <p className='text-gray-500'>{session.user?.name}</p>
+     <p className='text-white'>{session.user?.name}</p>
      </div>
         <Link href={"/api/auth/signout"}>
           <Button 

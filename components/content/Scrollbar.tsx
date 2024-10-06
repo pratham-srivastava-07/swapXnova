@@ -9,7 +9,6 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
 } from "@/components/ui/command"
@@ -19,32 +18,40 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-const frameworks = [
-    {
-        value: "sol",
-        label: "SOL",
-      },
-      {
-        value: "popcat",
-        label: "POPCAT",
-      },
-      {
-        value: "usdc",
-        label: "USDC",
-      },
-      {
-        value: "usdt",
-        label: "USDT",
-      },
-      {
-        value: "pyusd",
-        label: "PYUSD",
-      },
+
+const tokens = [
+  {
+    value: "sol",
+    label: "SOL",
+    imageUrl: "/sol.webp", 
+  },
+  {
+    value: "popcat",
+    label: "POPCAT",
+    imageUrl: "/popcat.webp", 
+  },
+  {
+    value: "usdc",
+    label: "USDC",
+    imageUrl: "/usdc.webp",
+  },
+  {
+    value: "usdt",
+    label: "USDT",
+    imageUrl: "/usdt.webp",
+  },
+  {
+    value: "pyusd",
+    label: "PYUSD",
+    imageUrl: "/pyusd.webp", 
+  },
 ]
 
 export function Scrollbar() {
   const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
+  const [value, setValue] = React.useState(tokens[0].value) 
+
+  const selectedToken = tokens.find((token) => token.value === value)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -55,34 +62,47 @@ export function Scrollbar() {
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {value
-            ? frameworks.find((framework) => framework.value === value)?.label
-            : "SOL"}
+          {selectedToken ? (
+            <div className="flex items-center space-x-2">
+              <img
+                src={selectedToken.imageUrl}
+                alt={selectedToken.label}
+                className="w-5 h-5"
+              />
+              <span>{selectedToken.label}</span>
+            </div>
+          ) : (
+            "Select Token" 
+          )}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          {/* <CommandInput placeholder="Search framework..." /> */}
           <CommandList className="bg-black text-white">
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>No token found.</CommandEmpty>
             <CommandGroup>
-              {frameworks.map((framework) => (
+              {tokens.map((token) => (
                 <CommandItem
-                  key={framework.value}
-                  value={framework.value}
+                  key={token.value}
+                  value={token.value}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
+                    setValue(currentValue)
                     setOpen(false)
                   }}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === framework.value ? "opacity-100" : "opacity-0"
+                      value === token.value ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {framework.label}
+                  <img
+                    src={token.imageUrl}
+                    alt={token.label}
+                    className="w-5 h-5 mr-2"
+                  />
+                  {token.label}
                 </CommandItem>
               ))}
             </CommandGroup>

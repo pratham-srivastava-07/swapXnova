@@ -3,13 +3,22 @@ import axios from 'axios';
 import { Wallet } from '@project-serum/anchor';
 import bs58 from 'bs58';
 
+interface SwapResponse {
+  txid: string;
+  solscanUrl: string;
+}
 
-export async function solanaSwap(inputMint: string, outputMint: string, amount: number, slippageBps: number) {
-  // Initialize connection to Solana mainnet
-  const connection = new Connection('https://api.devnet-beta.solana.com');
+export async function solanaSwap(
+  inputMint: string,
+  outputMint: string,
+  amount: number,
+  slippageBps: number
+): Promise<SwapResponse> {
+  // Initialize connection to Solana mainnet or devnet
+  const connection = new Connection('https://api.devnet-beta.solana.com'); 
 
   // Decode private key from environment variable
-  const secretKey = process.env.PRIVATE_KEY as string;
+  const secretKey = process.env.PRIVATE_KEY;
   if (!secretKey) throw new Error('Missing PRIVATE_KEY environment variable.');
 
   const wallet = new Wallet(Keypair.fromSecretKey(bs58.decode(secretKey)));
@@ -21,15 +30,17 @@ export async function solanaSwap(inputMint: string, outputMint: string, amount: 
     );
     console.log('Quote Response:', quoteResponse);
 
-    // Execute the swap transaction--> we r ok with qouteResponse so we get back a txn
+    // Execute the swap transaction
     const { data: { swapTransaction } } = await axios.post('https://quote-api.jup.ag/v6/swap', {
       quoteResponse,
       userPublicKey: wallet.publicKey.toString(),
     });
 
-    // Deserialize the swap transaction--> conversion into a txn obj 
+    // Deserialize the swap transaction
     const swapTransactionBuf = Buffer.from(swapTransaction, 'base64');
     const transaction = VersionedTransaction.deserialize(swapTransactionBuf);
+    if (!transaction) throw new Error('Failed to deserialize transaction.');
+
     console.log('Deserialized Transaction:', transaction);
 
     // Sign the transaction
@@ -56,6 +67,6 @@ export async function solanaSwap(inputMint: string, outputMint: string, amount: 
     return { txid, solscanUrl: `https://solscan.io/tx/${txid}` };
   } catch (error) {
     console.error('Error during Solana swap:', error);
-    throw error;
+    throw new Error(`Solana swap failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }

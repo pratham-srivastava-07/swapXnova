@@ -1,15 +1,8 @@
 "use client";
 
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { Button } from "../ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import {
     Popover,
     PopoverContent,
@@ -31,13 +24,14 @@ export default function Appbar() {
       <div className="flex justify-center items-center space-x-5 font-semibold pr-5">
         <Link href={"/about"}><div className="about cursor-pointer">About</div></Link>
         {!session ? (
-          <Button
-            variant={"outline"}
-            className="btn cursor-pointer rounded-full"
-            onClick={() => signIn()}
-          >
-            Sign In
-          </Button>
+          <Link href={"/api/auth/signin"}>
+              <Button
+               variant={"outline"}
+              className="btn cursor-pointer rounded-full"
+              >
+              Sign In
+             </Button>
+          </Link>
         ) : (
         <>
         <Popover>
@@ -49,14 +43,15 @@ export default function Appbar() {
      <p >{session?.user?.email}</p>
      <p className='text-gray-500'>{session.user?.name}</p>
      </div>
-     <Button 
-     variant="ghost" 
-     className='w-full flex items-center justify-between'
-     onClick={() => signOut()}
-     >
-            Logout
-          <LockOpen1Icon/>
-     </Button>
+        <Link href={"/api/auth/signout"}>
+          <Button 
+          variant="ghost" 
+          className='w-full flex items-center justify-between'
+          >
+              Logout
+            <LockOpen1Icon/>
+          </Button>
+        </Link>
             </PopoverContent>
         </Popover>
         </>

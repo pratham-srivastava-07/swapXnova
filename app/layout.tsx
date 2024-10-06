@@ -49,10 +49,16 @@ export default function RootLayout({
   }
   return (
     <html lang="en" style={{overflow: "auto"}}>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        style={{backgroundColor: '#9CB1C9', color: 'black'}}
-      >
+     <body
+  className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[linear-gradient(135deg,_#9CB1C9,_#101aa7,_#c9a29b,_#01053c)] bg-[length:200%_200%] animate-[gradientPulse_6s_ease-in-out_infinite]`}
+  style={{ color: 'white' }}
+>
+
+
+
+
+
+
           <AnimatePresence>
             <motion.div>
                   <Providers>

@@ -24,6 +24,7 @@ export default function Exchange() {
                     </div>
                   </Tabs>
                 </div>
+                
             </div>
         </div>
     </div>

@@ -19,6 +19,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import Appbar from "@/components/layouts/Appbar";
 import { Providers } from "./providers";
 import Footer from "@/components/layouts/Footer";
+import { Toaster } from "@/components/ui/toaster";
+
 
 
 const geistSans = localFont({
@@ -65,6 +67,7 @@ export default function RootLayout({
                   </WalletModalProvider>
                   </WalletProvider>
                     </ConnectionProvider>
+                    <Toaster />
                   </Providers>
             </motion.div>
           </AnimatePresence>

@@ -18,9 +18,10 @@ interface ScrollbarProps {
   selectedToken: string;
   onTokenSelect: (token: string) => void;
   excludedToken?: string;
+  onClick: () => void;
 }
 
-export function Scrollbar({ selectedToken, onTokenSelect, excludedToken }: ScrollbarProps) {
+export function Scrollbar({ selectedToken, onTokenSelect, excludedToken, onClick }: ScrollbarProps) {
   const [openDropdown, setOpenDropdown] = React.useState<boolean>(false);
 
   // Filter out the excluded token
@@ -29,7 +30,7 @@ export function Scrollbar({ selectedToken, onTokenSelect, excludedToken }: Scrol
   return (
     <Popover open={openDropdown} onOpenChange={setOpenDropdown}>
       <PopoverTrigger asChild>
-        <Button variant="outline" role="combobox" aria-expanded={openDropdown} className="w-[200px] justify-between">
+        <Button  variant="outline" role="combobox" aria-expanded={openDropdown} className="w-[200px] justify-between">
           {selectedToken ? (
             <div className="flex items-center space-x-2">
               <img src={tokens.find((t) => t.value === selectedToken)?.imageUrl} alt={selectedToken} className="w-5 h-5" />
@@ -43,7 +44,7 @@ export function Scrollbar({ selectedToken, onTokenSelect, excludedToken }: Scrol
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandList className="bg-black text-white">
+          <CommandList onClick={onClick} className="bg-black text-white">
             <CommandEmpty>No token found.</CommandEmpty>
             <CommandGroup>
               {availableTokens.map((token) => (

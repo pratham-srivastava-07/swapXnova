@@ -8,7 +8,7 @@ import {
     PopoverContent,
     PopoverTrigger,
   } from "@/components/ui/popover"
-import { LockOpen1Icon } from "@radix-ui/react-icons";
+import { DashboardIcon, LockOpen1Icon } from "@radix-ui/react-icons";
 import Link from "next/link";
 
 export default function Appbar() {
@@ -43,6 +43,12 @@ export default function Appbar() {
      <p >{session?.user?.email}</p>
      <p className='text-white'>{session.user?.name}</p>
      </div>
+     <Link href="/exchange" >
+        <Button variant="ghost" className='w-full flex items-center justify-between'>
+            Go to Exchange
+            <DashboardIcon/>
+        </Button>
+    </Link>
         <Link href={"/api/auth/signout"}>
           <Button 
           variant="ghost" 

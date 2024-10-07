@@ -6,7 +6,7 @@ import React, { useState } from "react";
 export default function SwapCard() {
   const [sellingToken, setSellingToken] = useState<string>("sol"); 
   const [buyingToken, setBuyingToken] = useState<string>("usdc"); 
-
+  const [amount, setAmount] = useState<number>()
  
   const handleSellingTokenChange = (token: string) => {
     setSellingToken(token);
@@ -30,7 +30,7 @@ export default function SwapCard() {
           <CardTitle>You're Selling</CardTitle>
         </CardHeader>
         <CardContent className="flex items-center justify-between">
-          <div className="flex items-center space-x-2 hover:bg-blue-900 hover:text-blue-500">
+          <div className="flex items-center space-x-2 hover:bg-gray-500 hover:text-green-500">
             <Scrollbar selectedToken={sellingToken} onTokenSelect={handleSellingTokenChange} excludedToken={buyingToken} />
           </div>
           <input
@@ -46,15 +46,20 @@ export default function SwapCard() {
       </div>
 
      
-      <Card className="w-[400px] bg-gray-500 text-white">
+      <Card className="w-[400px] bg-gray-500 text-white hover:bg-gray-500 hover:text-green-500">
         <CardHeader>
           <CardTitle>You're Buying</CardTitle>
         </CardHeader>
         <CardContent className="flex items-center justify-between">
-          <div className="flex items-center space-x-2 hover:bg-blue-900 hover:text-blue-500">
+          <div className="flex items-center space-x-2 ">
             
             <Scrollbar selectedToken={buyingToken} onTokenSelect={handleBuyingTokenChange} excludedToken={sellingToken} />
           </div>
+          <input
+            type="number"
+            placeholder="0.00"
+            className="bg-transparent text-right w-[100px] outline-none"
+          />
         </CardContent>
       </Card>
     </div>

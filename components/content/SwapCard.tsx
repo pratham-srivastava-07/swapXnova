@@ -1,12 +1,13 @@
 "use client";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Scrollbar } from "./Scrollbar";
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { toast } from "@/hooks/use-toast";
 import { solanaSwap } from "@/lib/swap";
 import { ArrowDownUp } from "lucide-react";
 import { Button } from "../ui/button";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 
 
 export default function SwapCard() {
@@ -15,6 +16,10 @@ export default function SwapCard() {
   const [amount, setAmount] = useState<number>(0);
   // const toast = useToast();
   const [swapLoading, setSwapLoading] = useState<boolean>(false)
+  const {connection} = useConnection()
+  const [balance, setBalance] =  useState(0)
+  const wallet = useWallet()
+
   const handleSellingTokenChange = (token: string) => {
     setSellingToken(token);
     if (token === buyingToken) {
@@ -44,7 +49,16 @@ export default function SwapCard() {
     })
     return
   }
+  async function getBalance() {
+    if(wallet.publicKey && wallet.connected) {
+      const walletBalance = await connection.getBalance(wallet.publicKey);
 
+      setBalance(walletBalance / LAMPORTS_PER_SOL)
+    }
+    else {
+      setBalance(0)
+    }
+  }
 
   async function handleTokenSwaps() {
     if(!buyingToken || !sellingToken || amount <=0) {
@@ -63,6 +77,10 @@ export default function SwapCard() {
     }
   }
 
+  useEffect(() => {
+    getBalance(); 
+  }, [wallet.connected, wallet.publicKey]);
+
   return (
     <div className="flex flex-col items-center">
       <Card className="w-[400px] bg-gray-500 text-white mb-4">
@@ -73,26 +91,21 @@ export default function SwapCard() {
           <div className="flex items-center space-x-2 hover:bg-gray-500 hover:text-green-500">
             <Scrollbar onClick={handleClickSelling} selectedToken={sellingToken} onTokenSelect={handleSellingTokenChange} excludedToken={buyingToken} />
           </div>
-          <input
-            type="number"
-            placeholder="0.00"
-            className="bg-transparent text-right w-[100px] outline-none"
-          />
+          <p id="balance">{balance}</p>
         </CardContent>
       </Card>
 
       <div className="text-center p-2">
-        {/* <img src="/arrows.png" alt="sswapImg" className="w-10 h-10 border text-white hover:border-green-500 border-black rounded-full p-2" /> */}
         <ArrowDownUp />
       </div>
 
      
-      <Card className="w-[400px] bg-gray-500 text-white hover:bg-gray-500 hover:text-green-500">
+      <Card className="w-[400px] bg-gray-500 text-white hover:bg-gray-500 ">
         <CardHeader>
-          <CardTitle>You're Buying</CardTitle>
+          <CardTitle className="hover:text-green-500 hover:cursor-pointer">You're Buying</CardTitle>
         </CardHeader>
         <CardContent className="flex items-center justify-between">
-          <div className="flex items-center space-x-2 ">
+          <div className="flex items-center space-x-2 hover:text-green-500">
             
             <Scrollbar onClick={handleClickBuying} selectedToken={buyingToken} onTokenSelect={handleBuyingTokenChange} excludedToken={sellingToken} />
           </div>
@@ -103,7 +116,7 @@ export default function SwapCard() {
           />
         </CardContent>
         <CardFooter>
-        <Button variant={"outline"} onClick={handleTokenSwaps}>Swap now</Button>
+        <Button variant={"outline"} onClick={handleTokenSwaps} className="hover:border-green-500">Swap now</Button>
         </CardFooter>
       </Card>
     </div>

@@ -71,7 +71,8 @@ export default function SwapCard() {
       const response = await solanaSwap(sellingToken, buyingToken, amount, slippage);
       alert(`Swap successful! pls chk wallet, ${response}`)
     } catch(err) {
-      alert("Couldn't swap tokens")
+      alert(err)
+      console.log(err)
     } finally {
         setSwapLoading(false)
     }
@@ -111,12 +112,14 @@ export default function SwapCard() {
           </div>
           <input
             type="number"
+            value={amount} // Bind the input to the state
+            onChange={(e) => setAmount(Number(e.target.value))} // Update state when the user types
             placeholder="0.00"
             className="bg-transparent text-right w-[100px] outline-none"
           />
         </CardContent>
         <CardFooter>
-        <Button variant={"outline"} onClick={handleTokenSwaps} className="hover:border-green-500">Swap now</Button>
+        <Button variant={"outline"} onClick={handleTokenSwaps} className="hover:border-green-500">{swapLoading ? "Swapping..." : "Swap now"}</Button>
         </CardFooter>
       </Card>
     </div>

@@ -1,6 +1,7 @@
 import { Connection, Keypair, VersionedTransaction } from '@solana/web3.js';
 import axios from 'axios';
 import { Wallet } from '@project-serum/anchor';
+// const { Wallet } = require("@project-serum/anchor");
 import bs58 from 'bs58';
 
 interface SwapResponse {
@@ -18,7 +19,7 @@ export async function solanaSwap(
   const connection = new Connection('https://api.devnet-beta.solana.com'); 
 
   // Decode private key from environment variable
-  const secretKey = process.env.PRIVATE_KEY;
+  const secretKey = process.env.NEXT_PUBLIC_PRIVATE_KEY;
   if (!secretKey) throw new Error('Missing PRIVATE_KEY environment variable.');
 
   const wallet = new Wallet(Keypair.fromSecretKey(bs58.decode(secretKey)));

@@ -1,12 +1,31 @@
-import { Connection, Keypair, VersionedTransaction } from '@solana/web3.js';
+import { Connection, Keypair, VersionedTransaction, PublicKey } from '@solana/web3.js';
 import axios from 'axios';
-import { Wallet } from '@project-serum/anchor';
-// const { Wallet } = require("@project-serum/anchor");
 import bs58 from 'bs58';
 
 interface SwapResponse {
   txid: string;
   solscanUrl: string;
+}
+
+// Custom Wallet class using Keypair
+class CustomWallet {
+  constructor(private readonly payer: Keypair) {}
+
+  get publicKey(): PublicKey {
+    return this.payer.publicKey;
+  }
+
+  signTransaction(transaction: VersionedTransaction): VersionedTransaction {
+    transaction.sign([this.payer]);
+    return transaction;
+  }
+
+  signAllTransactions(transactions: VersionedTransaction[]): VersionedTransaction[] {
+    return transactions.map((tx) => {
+      tx.sign([this.payer]);
+      return tx;
+    });
+  }
 }
 
 export async function solanaSwap(
@@ -22,7 +41,9 @@ export async function solanaSwap(
   const secretKey = process.env.NEXT_PUBLIC_PRIVATE_KEY;
   if (!secretKey) throw new Error('Missing PRIVATE_KEY environment variable.');
 
-  const wallet = new Wallet(Keypair.fromSecretKey(bs58.decode(secretKey)));
+  // Create a Keypair from the secret key
+  const keypair = Keypair.fromSecretKey(bs58.decode(secretKey));
+  const wallet = new CustomWallet(keypair);
 
   try {
     // Get the quote from Jupiter API
@@ -45,7 +66,7 @@ export async function solanaSwap(
     console.log('Deserialized Transaction:', transaction);
 
     // Sign the transaction
-    transaction.sign([wallet.payer]);
+    wallet.signTransaction(transaction);
 
     // Get the latest block hash for transaction confirmation
     const latestBlockHash = await connection.getLatestBlockhash();
@@ -71,3 +92,4 @@ export async function solanaSwap(
     throw new Error(`Solana swap failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
+

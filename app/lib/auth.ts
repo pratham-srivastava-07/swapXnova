@@ -4,6 +4,8 @@ import { prismaClient } from "./db";
 import bcrypt from "bcrypt"
 import { Session } from "next-auth";
 import { JWT } from "next-auth/jwt";
+import { pages } from "next/dist/build/templates/app-page";
+import { signIn } from "next-auth/react";
 declare module "next-auth" {
   interface Session {
     user: {
@@ -83,5 +85,6 @@ export const authOptions =  {
                   }
                   return session;
                 },
-              }
+              },
+
               }

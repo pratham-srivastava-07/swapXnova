@@ -67,8 +67,8 @@ export default function SwapCard() {
 
     try {
       setSwapLoading(true)
-      const slippage = 50;
-      const response = await solanaSwap(sellingToken, buyingToken, amount, slippage);
+      const slippageBps = 50;
+      const response = await solanaSwap(sellingToken, buyingToken, amount, slippageBps);
       alert(`Swap successful! pls chk wallet, ${response}`)
     } catch(err) {
       alert(err)

@@ -9,10 +9,6 @@ export default function ShowButton() {
     const router = useRouter()
     const  {data: session} = useSession()
     return <div>
-        {session ? (<div>
-            <Link href={"/exchange"}><Button variant={"outline"}>Swap Now!</Button></Link>
-        </div>) : (<div>
-            <Link href={"/api/auth/signin"}><Button variant={"outline"}>Swap Now!</Button></Link>
-        </div>) }
+        <Link href={session ? "/exchange" : "/api/auth/signin"}><Button variant={"outline"}>Swap Now!</Button></Link>
     </div>
 }

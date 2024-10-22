@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prismaClient } from "./db";
 import bcrypt from "bcrypt"

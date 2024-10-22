@@ -86,7 +86,7 @@ export default function SwapCard() {
     <div className="flex flex-col items-center">
       <Card className="w-[400px] bg-gray-500 text-white mb-4">
         <CardHeader>
-          <CardTitle>You're Selling</CardTitle>
+          <CardTitle>You are Selling</CardTitle>
         </CardHeader>
         <CardContent className="flex items-center justify-between">
           <div className="flex items-center space-x-2 hover:bg-gray-500 hover:text-green-500">
@@ -103,7 +103,7 @@ export default function SwapCard() {
      
       <Card className="w-[400px] bg-gray-500 text-white hover:bg-gray-500 ">
         <CardHeader>
-          <CardTitle className="hover:text-green-500 hover:cursor-pointer">You're Buying</CardTitle>
+          <CardTitle className="hover:text-green-500 hover:cursor-pointer">You are Buying</CardTitle>
         </CardHeader>
         <CardContent className="flex items-center justify-between">
           <div className="flex items-center space-x-2 hover:text-green-500">

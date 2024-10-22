@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-
+import Image from "next/image"
 export default function Footer() {
   return (
     <motion.footer
@@ -13,8 +13,9 @@ export default function Footer() {
         <div className="flex flex-wrap justify-between items-center">
           
           <div className="flex items-center space-x-4">
-            <img
+            <Image
               src={"/img.webp"}
+              fill
               alt="Logo"
               className="w-12 h-12"
             />

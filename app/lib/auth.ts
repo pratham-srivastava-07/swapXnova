@@ -10,7 +10,7 @@ export const authOptions =  {
                   email: {label: "Email", type: "email", placeholder: "email"},
                   password: { label: "Password", type: "password", placeholder: "password" },
                 },
-                async authorize(credentials, req) {
+                async authorize(credentials) {
                   if (!credentials?.email || !credentials?.password) {
                     throw new Error("Missing email or password");
                   }
@@ -64,7 +64,7 @@ export const authOptions =  {
             ],
               secret: process.env.NEXTAUTH_SECRET,
               callbacks: {
-                async session({ token, session }: any) {
+                async session(session: any, token: any) {
                   if (session?.user) {
                     session.user.id = token.sub;
                   }

@@ -8,7 +8,7 @@ export default function About() {
                 <p className="text-lg mb-10">
                     Welcome to our decentralized exchange (DEX) built on the Solana blockchain. 
                     Our mission is to provide fast, secure, and efficient token swaps while ensuring 
-                    a seamless user experience. Whether you're a crypto enthusiast or a trader, our 
+                    a seamless user experience. Whether you are a crypto enthusiast or a trader, our 
                     platform aims to deliver the best in DeFi innovation.
                 </p>
                 <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-1 rounded-lg">

@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-
+import Image from 'next/image'
 const tokens = [
   { value: "sol", label: "SOL", imageUrl: "/sol.webp" },
   { value: "popcat", label: "POPCAT", imageUrl: "/popcat.webp" },
@@ -33,7 +33,7 @@ export function Scrollbar({ selectedToken, onTokenSelect, excludedToken, onClick
         <Button  variant="outline" role="combobox" aria-expanded={openDropdown} className="w-[200px] justify-between">
           {selectedToken ? (
             <div className="flex items-center space-x-2">
-              <img src={tokens.find((t) => t.value === selectedToken)?.imageUrl} alt={selectedToken} className="w-5 h-5" />
+              <Image src={tokens.find((t) => t.value === selectedToken)?.imageUrl || "/img.webp"} alt={selectedToken} className="w-5 h-5" />
               <span>{tokens.find((t) => t.value === selectedToken)?.label}</span>
             </div>
           ) : (
@@ -50,7 +50,7 @@ export function Scrollbar({ selectedToken, onTokenSelect, excludedToken, onClick
               {availableTokens.map((token) => (
                 <CommandItem key={token.value} value={token.value} onSelect={() => onTokenSelect(token.value)}>
                   <Check className={cn("mr-2 h-4 w-4", selectedToken === token.value ? "opacity-100" : "opacity-0")} />
-                  <img src={token.imageUrl} alt={token.label} className="w-5 h-5 mr-2" />
+                  <Image src={token.imageUrl} alt={token.label} className="w-5 h-5 mr-2" />
                   {token.label}
                 </CommandItem>
               ))}

@@ -4,7 +4,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 
 import {
@@ -14,7 +14,6 @@ import {
 
 // Default styles that can be overridden by your app
 import '@solana/wallet-adapter-react-ui/styles.css';
-import { SessionProvider } from "next-auth/react";
 import { AnimatePresence, motion } from "framer-motion";
 import Appbar from "@/components/layouts/Appbar";
 import { Providers } from "./providers";

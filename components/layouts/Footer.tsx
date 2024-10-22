@@ -15,7 +15,8 @@ export default function Footer() {
           <div className="flex items-center space-x-4">
             <Image
               src={"/img.webp"}
-              fill
+              width={5}
+              height={5}
               alt="Logo"
               className="w-12 h-12"
             />

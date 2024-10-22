@@ -2,7 +2,7 @@
 import Exchange from "@/pages/Exchange";
 import { useEffect, useState } from "react";
 
-export default function page() {
+export default function Exchangepage() {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {

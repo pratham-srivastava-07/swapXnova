@@ -64,7 +64,7 @@ export const authOptions =  {
 
                     return {
                       id: newUser.id.toString(),
-                      name: newUser.name,
+                      name: newUser.name || "",
                       email: newUser.email,
                     };
                   } catch (e) {
@@ -76,7 +76,7 @@ export const authOptions =  {
             ],
               secret: process.env.NEXTAUTH_SECRET,
               callbacks: {
-                async session(session: Session, token: JWT) {
+                async session({ session, token }: { session: Session; token: JWT }) {
                   if (session?.user) {
                     session.user.id = token.sub || "";
                   }

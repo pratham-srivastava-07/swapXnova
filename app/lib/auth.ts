@@ -64,7 +64,7 @@ export const authOptions =  {
 
                     return {
                       id: newUser.id.toString(),
-                      name: newUser.name || "",
+                      name: newUser.name,
                       email: newUser.email,
                     };
                   } catch (e) {

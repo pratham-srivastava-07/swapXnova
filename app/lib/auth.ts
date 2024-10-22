@@ -1,6 +1,18 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prismaClient } from "./db";
 import bcrypt from "bcrypt"
+import { Session } from "next-auth";
+import { JWT } from "next-auth/jwt";
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    };
+  }
+}
 export const authOptions =  {
             providers: [
               CredentialsProvider({
@@ -64,9 +76,9 @@ export const authOptions =  {
             ],
               secret: process.env.NEXTAUTH_SECRET,
               callbacks: {
-                async session(session: any, token: any) {
+                async session(session: Session, token: JWT) {
                   if (session?.user) {
-                    session.user.id = token.sub;
+                    session.user.id = token.sub || "";
                   }
                   return session;
                 },

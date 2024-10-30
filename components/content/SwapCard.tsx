@@ -92,7 +92,12 @@ export default function SwapCard() {
           <div className="flex items-center space-x-2 hover:bg-gray-500 hover:text-green-500">
             <Scrollbar onClick={handleClickSelling} selectedToken={sellingToken} onTokenSelect={handleSellingTokenChange} excludedToken={buyingToken} />
           </div>
-          <p id="balance">{balance}</p>
+          <input
+             type=""// Bind the input to the state
+             onChange={(e) => setAmount(Number(e.target.value))} // Update state when the user types
+            placeholder="0"
+            className="bg-transparent text-right w-[100px] outline-none"
+          />
         </CardContent>
       </Card>
 
@@ -111,9 +116,8 @@ export default function SwapCard() {
             <Scrollbar onClick={handleClickBuying} selectedToken={buyingToken} onTokenSelect={handleBuyingTokenChange} excludedToken={sellingToken} />
           </div>
           <input
-            type="number"
-            value={amount} // Bind the input to the state
-            onChange={(e) => setAmount(Number(e.target.value))} // Update state when the user types
+             // Bind the input to the state
+            // onChange={(e) => setAmount(Number(e.target.value))} // Update state when the user types
             placeholder="0.00"
             className="bg-transparent text-right w-[100px] outline-none"
           />

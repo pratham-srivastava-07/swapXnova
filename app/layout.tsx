@@ -16,7 +16,6 @@ import {
 import '@solana/wallet-adapter-react-ui/styles.css';
 import { AnimatePresence, motion } from "framer-motion";
 import Appbar from "@/components/layouts/Appbar";
-import { Providers } from "./providers";
 import Footer from "@/components/layouts/Footer";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -50,13 +49,12 @@ export default function RootLayout({
   }
   return (
     <html lang="en" style={{overflow: "auto"}}>
-     <body
-  className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[linear-gradient(135deg,_#9CB1C9,_#101aa7,_#c9a29b,_#01053c)] bg-[length:200%_200%] animate-[gradientPulse_6s_ease-in-out_infinite]`}
+    <body
+  className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[linear-gradient(135deg,_#0D0E12,_#1C1C2B,_#2E2E3A,_#0A0B10)] bg-[length:200%_200%] animate-[gradientPulse_6s_ease-in-out_infinite]`}
   style={{ color: 'white' }}
 >
           <AnimatePresence>
-            <motion.div>
-                  <Providers>
+            <motion.div>   
                   <ConnectionProvider endpoint={"https://api.devnet.solana.com"}>
                       <WalletProvider wallets={[]}>
                   <WalletModalProvider>
@@ -67,7 +65,6 @@ export default function RootLayout({
                   </WalletProvider>
                     </ConnectionProvider>
                     <Toaster />
-                  </Providers>
             </motion.div>
           </AnimatePresence>
       </body>

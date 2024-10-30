@@ -33,7 +33,7 @@ export function Scrollbar({ selectedToken, onTokenSelect, excludedToken, onClick
         <Button  variant="outline" role="combobox" aria-expanded={openDropdown} className="w-[200px] justify-between">
           {selectedToken ? (
             <div className="flex items-center space-x-2">
-              <Image src={tokens.find((t) => t.value === selectedToken)?.imageUrl || "/img.webp"} alt={selectedToken} className="w-5 h-5" />
+              <Image src={tokens.find((t) => t.value === selectedToken)?.imageUrl || "/img.webp"} alt={selectedToken} width={5} height={5} className="w-5 h-5" />
               <span>{tokens.find((t) => t.value === selectedToken)?.label}</span>
             </div>
           ) : (
@@ -50,7 +50,7 @@ export function Scrollbar({ selectedToken, onTokenSelect, excludedToken, onClick
               {availableTokens.map((token) => (
                 <CommandItem key={token.value} value={token.value} onSelect={() => onTokenSelect(token.value)}>
                   <Check className={cn("mr-2 h-4 w-4", selectedToken === token.value ? "opacity-100" : "opacity-0")} />
-                  <Image src={token.imageUrl} alt={token.label} className="w-5 h-5 mr-2" />
+                  <Image src={token.imageUrl} alt={token.label} className="w-5 h-5 mr-2" width={5} height={5} />
                   {token.label}
                 </CommandItem>
               ))}

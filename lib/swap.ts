@@ -38,7 +38,7 @@ export async function solanaSwap(
   const connection = new Connection('https://api.devnet-beta.solana.com'); 
 
   // Decode private key from environment variable
-  const secretKey = process.env.NEXT_PUBLIC_PRIVATE_KEY;
+  const secretKey = process.env.PRIVATE_KEY;
   if (!secretKey) throw new Error('Missing PRIVATE_KEY environment variable.');
 
   // Create a Keypair from the secret key

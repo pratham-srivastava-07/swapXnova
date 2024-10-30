@@ -12,7 +12,7 @@ import { DashboardIcon, LockOpen1Icon } from "@radix-ui/react-icons";
 import Link from "next/link";
 
 export default function Appbar() {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
   return (
     <div className="flex justify-between items-center p-5">
@@ -21,7 +21,7 @@ export default function Appbar() {
         swapXnova
       </div>
 
-      <div className="flex justify-center items-center space-x-5 font-semibold pr-5">
+      {/* <div className="flex justify-center items-center space-x-5 font-semibold pr-5">
         <Link href={"/about"}><div className="about cursor-pointer">About</div></Link>
         {!session ? (
           <Link href={"/api/auth/signin"}>
@@ -62,7 +62,7 @@ export default function Appbar() {
         </Popover>
         </>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }
